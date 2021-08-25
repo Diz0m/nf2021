@@ -9,7 +9,7 @@ echo "ok"
 else
 echo "stoped"
 docker stop web53 && docker rm web53
-docker run --name web53 -p 8080:8080 --network=bridge --restart=always -d web53-2
+docker run --name web53 -p 8080:8080 --network=bridge --restart=always -d web53
 fi
 echo "5s"
 sleep 5
