@@ -1,0 +1,237 @@
+
+Current configuration : 5646 bytes
+!
+! Last configuration change at 06:44:34 UTC Thu Aug 26 2021
+!
+version 17.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+platform qfp utilization monitor load 80
+platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname gw-region-01
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition GS
+ rd 100:100
+ !
+ address-family ipv4
+ exit-address-family
+!
+logging persistent size 1000000 filesize 8192 immediate
+!
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authorization exec default local none 
+!
+!
+!
+!
+!
+!
+aaa session-id common
+!
+!
+!
+!
+!
+!
+!
+ip domain name gw-region-01.cloudapp.net
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+! 
+! 
+! 
+! 
+!
+multilink bundle-name authenticated
+!
+!
+crypto pki trustpoint TP-self-signed-455469513
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-455469513
+ revocation-check none
+ rsakeypair TP-self-signed-455469513
+!
+!
+crypto pki certificate chain TP-self-signed-455469513
+ certificate self-signed 01
+  3082032E 30820216 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 34353534 36393531 33301E17 0D323130 38323630 34323231 
+  355A170D 33303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3435 35343639 
+  35313330 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 82010A02 
+  82010100 F6CDEE78 9E1A80E6 1991DA6E 19A21E43 9C800456 FC63C5FC A3E9CB5F 
+  383E7B74 6C567D6E 057B79F0 AF83C49E 065344D5 A5B5F8AD 68DB22FD 9BAB880C 
+  B31FD625 D9B411EC 28ED06EA 5C566D51 75BD52D7 14393D86 6361F5C5 E5925D37 
+  4200FD78 45A9C287 56D97D13 FDAEFD9E 043A4714 BC5E46F8 2D05F376 D2448AA4 
+  C12C214B A343C19E E2E4F923 A444F2E2 D9CD0B0C A50AA3D6 3C9166E9 B753B348 
+  4FDEA446 41CE0C97 A51140A9 77538C05 30362B44 277A6E12 4A7D1D18 940F7EB9 
+  24D66D0E EC73B31B AC86B30B 0FE89396 121B3AE3 C8DF3F91 702A0CD5 C8319B5D 
+  657C8607 312E138E 4E721C16 ADDA0390 FA00D207 F35C0312 7D642D75 0A7CA2EF 
+  1977A445 02030100 01A35330 51300F06 03551D13 0101FF04 05300301 01FF301F 
+  0603551D 23041830 168014FB D907CDAE 2A6C4972 1528F4DF 8EE4557A 8828F430 
+  1D060355 1D0E0416 0414FBD9 07CDAE2A 6C497215 28F4DF8E E4557A88 28F4300D 
+  06092A86 4886F70D 01010505 00038201 01003D7A F6DB6D2F 151E92D7 90EAC215 
+  5F05A035 0ABB6A10 A0041B30 00F4F819 8F4CBE1E 1BBFDF19 6E41ECE4 3ADC5DA5 
+  081879CF F0CD868E 926EE871 DDD0F577 530B6106 F21D90B7 82DD4D87 1D797AD6 
+  D69A4366 17D7CC6F 19A0AEFA 2C186204 9FD80F99 23D5CC3D 61EE0090 711290B2 
+  8866F58E 26FAF01D 7499C2A7 459E9D30 2AB37475 7819DEEA B98AE158 9EC8A320 
+  B43744B6 579E80E4 F4FC6ADF 27201297 CEEBDA06 8D256D00 FF8F2200 C5F1BC41 
+  B00FE602 8DD678C5 3440D0DC 7523B4D6 8EC342D8 05FFAB29 18C6905C 1EF48829 
+  ED486E2D 2A818523 8E9BECA3 0AE096B9 4F29D290 C3FFE439 2B522C79 68FFE764 
+  3BBA31DA 512F1FA5 6E5E2DEA D6BF5C7C 6007
+  quit
+!
+license udi pid CSR1000V sn 9O6BBC5VH5D
+no license smart enable
+diagnostic bootup level minimal
+memory free low-watermark processor 71873
+!
+!
+username azadmin privilege 15 password 7 14474B3C022323280B2A153E7446015B52
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+crypto isakmp policy 1
+ encryption aes
+ hash sha256
+ authentication pre-share
+ group 14
+crypto isakmp key key12 address 0.0.0.0        
+!
+!
+crypto ipsec transform-set T12 esp-3des esp-md5-hmac 
+ mode transport
+!
+crypto ipsec profile P12
+ set transform-set T12 
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+!         
+interface Tunnel0
+ ip address 192.168.0.1 255.255.255.252
+ tunnel source GigabitEthernet1
+ tunnel mode ipsec ipv4
+ tunnel destination 52.161.9.136
+ tunnel protection ipsec profile P12
+!
+interface Tunnel1
+ ip address 192.168.1.1 255.255.255.252
+ tunnel source GigabitEthernet1
+ tunnel mode ipsec ipv4
+ tunnel destination 23.98.182.189
+ tunnel protection ipsec profile P12
+!
+interface VirtualPortGroup0
+ vrf forwarding GS
+ ip address 192.168.35.101 255.255.255.0
+ ip nat inside
+!
+interface GigabitEthernet1
+ ip address dhcp
+ ip nat outside
+ negotiation auto
+!
+interface GigabitEthernet2
+ ip address dhcp
+ ip nat inside
+ negotiation auto
+!
+router ospf 1
+ network 10.241.250.0 0.0.0.255 area 0
+ network 192.168.0.0 0.0.0.3 area 0
+ network 192.168.1.0 0.0.0.3 area 0
+!
+iox
+ip forward-protocol nd
+ip tcp window-size 8192
+no ip http server
+no ip http secure-server
+!
+ip nat inside source static tcp 10.241.250.31 80 interface GigabitEthernet1 80
+ip nat inside source static tcp 10.241.250.31 443 interface GigabitEthernet1 443
+ip nat inside source static tcp 10.241.250.31 8080 interface GigabitEthernet1 8080
+ip nat inside source list PAT interface GigabitEthernet1 overload
+ip nat inside source list GS_NAT_ACL interface GigabitEthernet1 vrf GS overload
+ip route 0.0.0.0 0.0.0.0 10.241.117.1
+ip route vrf GS 0.0.0.0 0.0.0.0 GigabitEthernet1 10.241.117.1 global
+ip ssh rsa keypair-name sshkeys
+ip ssh server algorithm publickey ecdsa-sha2-nistp256 ecdsa-sha2-nistp384 ecdsa-sha2-nistp521 ssh-rsa x509v3-ecdsa-sha2-nistp256 x509v3-ecdsa-sha2-nistp384 x509v3-ecdsa-sha2-nistp521
+ip scp server enable
+!
+ip access-list standard GS_NAT_ACL
+ 10 permit 192.168.35.0 0.0.0.255
+ip access-list standard PAT
+ 10 permit 10.241.250.0 0.0.0.255
+!
+!
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ transport input ssh
+line vty 5 20
+ transport input ssh
+!
+!
+!
+!
+!
+!
+app-hosting appid guestshell
+ app-vnic gateway1 virtualportgroup 0 guest-interface 0
+  guest-ipaddress 192.168.35.102 netmask 255.255.255.0
+ app-default-gateway 192.168.35.101 guest-interface 0
+ name-server0 8.8.8.8
+end
