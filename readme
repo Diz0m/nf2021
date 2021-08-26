@@ -1,1 +1,2 @@
 docker run -d --name redis -p 6379:6379 --network=bridge --restart=always redis
+https://content.cisco.com/chapter.sjs?uri=/searchable/chapter/www.cisco.com/content/en/us/td/docs/routers/csr1000/software/azu/b_csr1000config-azure/b_csr1000config-azure_chapter_011.html.xml
